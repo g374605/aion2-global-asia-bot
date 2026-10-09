@@ -98,11 +98,9 @@ function listEmbed(items, title) {
 
   return new EmbedBuilder()
     .setColor(COMMAND_COLOR)
-    .setAuthor({ name: 'AION 2 · Global Asia Event Tracker' })
+    .setAuthor({ name: 'AION 2 · Global Asia' })
     .setTitle(title)
-    .setDescription(lines || '暂无即将到来的事件')
-    .setFooter({ text: '时区: 北京时间 (GMT+8) · 数据来源: Shugo.gg' })
-    .setTimestamp();
+    .setDescription(lines || '暂无即将到来的事件');
 }
 
 let busy = false;
