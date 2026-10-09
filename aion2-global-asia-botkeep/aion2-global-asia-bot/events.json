@@ -5,14 +5,14 @@
   "displayTimezone": "Asia/Shanghai",
   "notice": "社区观察的Global UTC时间表；亚洲具体偏移未确认。请在游戏中核实。次元入侵为Global暂定。",
   "events": [
-    {"id":"rift","name":"Spacetime Rift 时空裂缝","emoji":"🌀","days":[0,1,2,3,4,5,6],"times":["00:00","03:00","06:00","09:00","12:00","15:00","18:00","21:00"],"durationMinutes":60,"note":"传送门在前10分钟开启"},
-    {"id":"artifact","name":"Artifact Siege 要塞战","emoji":"🏰","days":[1,4,6],"times":["21:00"],"durationMinutes":30},
-    {"id":"siegeboss","name":"Siege Bosses 要塞BOSS","emoji":"👹","days":[1,4,6],"times":["21:30"],"durationMinutes":30},
-    {"id":"nahma","name":"Guardian General Nahma 守護神將納赫瑪","emoji":"🐉","days":[0,5],"times":["21:00"],"durationMinutes":30},
-    {"id":"kaira","name":"Watcher Kaira 監視者卡伊拉","emoji":"👁️","days":[0,1,2,3,4,5,6],"times":["01:00","04:00","07:00","10:00","13:00","16:00","19:00","22:00"],"durationMinutes":30},
-    {"id":"shugo","name":"Shugo Festival 树古庆典","emoji":"🎪","days":[0,1,2,3,4,5,6],"times":["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],"durationMinutes":10},
-    {"id":"invasion","name":"Dimensional Invasion 次元入侵","emoji":"🛡️","days":[0,1,2,3,4,5,6],"times":["00:30","01:30","02:30","03:30","04:30","05:30","06:30","07:30","08:30","09:30","10:30","11:30","12:30","13:30","14:30","15:30","16:30","17:30","18:30","19:30","20:30","21:30","22:30","23:30"],"durationMinutes":15,"provisional":true,"note":":30时间来自韩服，未经Global Asia确认"},
-    {"id":"daily","name":"Daily Reset 每日重置","emoji":"🔄","days":[0,1,2,3,4,5,6],"times":["16:00"],"durationMinutes":0},
-    {"id":"weekly","name":"Weekly Reset 每周重置","emoji":"📅","days":[3],"times":["16:00"],"durationMinutes":0}
+    {"id":"rift","name":"时空裂缝 Spacetime Rift","emoji":"🌀","days":[0,1,2,3,4,5,6],"times":["00:00","03:00","06:00","09:00","12:00","15:00","18:00","21:00"],"durationMinutes":60,"note":"传送门在前10分钟开启"},
+    {"id":"artifact","name":"要塞战 Artifact Siege","emoji":"🏰","days":[1,4,6],"times":["21:00"],"durationMinutes":30},
+    {"id":"siegeboss","name":"要塞BOSS Siege Bosses","emoji":"👹","days":[1,4,6],"times":["21:30"],"durationMinutes":30},
+    {"id":"nahma","name":"守護神將納赫瑪 Guardian General Nahma","emoji":"🐉","days":[0,5],"times":["21:00"],"durationMinutes":30},
+    {"id":"kaira","name":"監視者卡伊拉 Watcher Kaira","emoji":"👁️","days":[0,1,2,3,4,5,6],"times":["01:00","04:00","07:00","10:00","13:00","16:00","19:00","22:00"],"durationMinutes":30},
+    {"id":"shugo","name":"树古庆典 Shugo Festival","emoji":"🎪","days":[0,1,2,3,4,5,6],"times":["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],"durationMinutes":10},
+    {"id":"invasion","name":"次元入侵 Dimensional Invasion","emoji":"🛡️","days":[0,1,2,3,4,5,6],"times":["00:30","01:30","02:30","03:30","04:30","05:30","06:30","07:30","08:30","09:30","10:30","11:30","12:30","13:30","14:30","15:30","16:30","17:30","18:30","19:30","20:30","21:30","22:30","23:30"],"durationMinutes":15,"provisional":true,"note":":30时间来自韩服，未经Global Asia确认"},
+    {"id":"daily","name":"每日重置 Daily Reset","emoji":"🔄","days":[0,1,2,3,4,5,6],"times":["16:00"],"durationMinutes":0},
+    {"id":"weekly","name":"每周重置 Weekly Reset","emoji":"📅","days":[3],"times":["16:00"],"durationMinutes":0}
   ]
 }
