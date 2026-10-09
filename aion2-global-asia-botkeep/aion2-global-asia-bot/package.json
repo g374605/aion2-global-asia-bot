@@ -1,0 +1,14 @@
+{
+  "name": "aion2-global-event-bot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node bot.js",
+    "check": "node check.mjs"
+  },
+  "dependencies": {
+    "discord.js": "^14.22.0",
+    "dotenv": "^16.6.1"
+  }
+}
