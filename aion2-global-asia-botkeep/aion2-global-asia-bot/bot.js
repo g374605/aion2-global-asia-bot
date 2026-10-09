@@ -16,6 +16,11 @@ if (![DISCORD_TOKEN, CLIENT_ID, GUILD_ID, CHANNEL_ID].every(Boolean)) throw new 
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
+const COMMAND_COLOR = 0x5865F2;      // Discord Blurple — 命令面板
+const WARN_COLOR = 0xF59E0B;         // 琥珀金 — 5分钟预警
+const START_COLOR = 0x22C55E;        // 翡翠绿 — 事件开始
+const DIVIDER = '━━━━━━━━━━━━━━━━';
+
 const commands = [
   new SlashCommandBuilder().setName('events').setDescription('查看即将到来的 AION 2 Global 事件'),
   new SlashCommandBuilder().setName('nextboss').setDescription('查看下一个 BOSS 刷新时间'),
@@ -51,7 +56,7 @@ function occurrences(now, horizonDays = 8) {
   return out.sort((a,b) => a.start-b.start);
 }
 
-const vnTime = timestamp => new Intl.DateTimeFormat('zh-CN', {timeZone:'Asia/Shanghai', weekday:'short', day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(timestamp));
+const cnTime = timestamp => new Intl.DateTimeFormat('zh-CN', {timeZone:'Asia/Shanghai', weekday:'short', month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(timestamp));
 const unix = ms => Math.floor(ms / 1000);
 
 function readState() {
@@ -68,11 +73,36 @@ function saveState(state) {
 }
 
 function embedFor({event,start}, lead) {
-  const title = lead ? `⏰ 还有5分钟: ${event.emoji} ${event.name}` : `🚨 开始: ${event.emoji} ${event.name}`;
-  return new EmbedBuilder().setColor(lead ? 0xF59E0B : 0x22C55E).setTitle(title)
-    .setDescription(`**北京时间:** ${vnTime(start)} (GMT+8)\n**Discord时间:** <t:${unix(start)}:F>\n**状态:** ${lead ? '即将开始' : '已开始'}${event.provisional ? '\n⚠️ 暂定时间，未经Global Asia确认' : ''}`)
-    .addFields({name:'时长',value:event.durationMinutes ? `${event.durationMinutes} 分钟` : '重置时间点',inline:true}, {name:'区域',value:'Global Asia (UTC社区时间表)',inline:true})
-    .setFooter({text: event.note || '参考来源: Shugo.gg. 请在游戏中核实时间。'});
+  const color = lead ? WARN_COLOR : START_COLOR;
+  const statusText = lead ? '⚠️ 即将开始' : '🔔 已开始';
+  const durationText = event.durationMinutes > 0 ? `时长 ${event.durationMinutes} 分钟` : '每日重置';
+
+  return new EmbedBuilder()
+    .setColor(color)
+    .setAuthor({ name: 'AION 2 · Global Asia' })
+    .setTitle(`${event.emoji}  ${event.name}`)
+    .setDescription(`${DIVIDER}\n**${statusText}**\n${DIVIDER}`)
+    .addFields(
+      { name: '🕐 开始时间', value: `<t:${unix(start)}:F>`, inline: true },
+      { name: '⏱️ 倒计时', value: `<t:${unix(start)}:R>`, inline: true },
+      { name: '📌 时长', value: durationText, inline: true },
+    )
+    .setFooter({ text: event.provisional ? '⚠️ 暂定时间，未经Global Asia确认' : event.note || '数据来源: Shugo.gg · 请在游戏中核实' });
+}
+
+function listEmbed(items, title) {
+  const lines = items.map(x => {
+    const prov = x.event.provisional ? ' ⚠️' : '';
+    return `${x.event.emoji} **${x.event.name}**${prov}\n    └ <t:${unix(x.start)}:F> · <t:${unix(x.start)}:R>`;
+  }).join('\n\n');
+
+  return new EmbedBuilder()
+    .setColor(COMMAND_COLOR)
+    .setAuthor({ name: 'AION 2 · Global Asia Event Tracker' })
+    .setTitle(title)
+    .setDescription(lines || '暂无即将到来的事件')
+    .setFooter({ text: '时区: 北京时间 (GMT+8) · 数据来源: Shugo.gg' })
+    .setTimestamp();
 }
 
 let busy = false;
@@ -107,7 +137,7 @@ client.on('interactionCreate', async interaction => {
     if (interaction.commandName === 'testevent') {
       if (!interaction.memberPermissions?.has(PermissionFlagsBits.ManageGuild)) return interaction.reply({content:'需要「管理服务器」权限才能使用此命令。',flags:MessageFlags.Ephemeral});
       const example = occurrences(new Date(),8)[0];
-      await interaction.reply({content:'正在向配置的频道发送测试消息。',flags:MessageFlags.Ephemeral});
+      await interaction.reply({content:'✅ 正在向配置的频道发送测试消息。',flags:MessageFlags.Ephemeral});
       const channel = await client.channels.fetch(CHANNEL_ID);
       await channel.send({embeds:[embedFor(example,5)]});
       return;
@@ -115,7 +145,8 @@ client.on('interactionCreate', async interaction => {
     let items = occurrences(new Date(),8).filter(x => x.start > Date.now());
     if (interaction.commandName === 'nextboss') items = items.filter(x => ['siegeboss','nahma','kaira'].includes(x.event.id));
     items = items.slice(0,10);
-    await interaction.reply({embeds:[new EmbedBuilder().setTitle(interaction.commandName === 'nextboss' ? '即将刷新的BOSS' : '即将到来的Global Asia事件').setColor(0x5865F2).setDescription(items.length ? items.map(x=>`${x.event.emoji} **${x.event.name}** — ${vnTime(x.start)} · <t:${unix(x.start)}:R>`).join('\n') : '暂无即将到来的事件')]});
+    const title = interaction.commandName === 'nextboss' ? '👹 即将刷新的 BOSS' : '📅 即将到来的事件';
+    await interaction.reply({embeds:[listEmbed(items, title)]});
   } catch (err) { console.error(err); if (!interaction.replied) await interaction.reply({content:'命令执行失败，请查看Bot日志。',flags:MessageFlags.Ephemeral}).catch(()=>{}); }
 });
 
