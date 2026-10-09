@@ -87,7 +87,7 @@ function embedFor({event,start}, lead) {
       { name: '⏱️ 倒计时', value: `<t:${unix(start)}:R>`, inline: true },
       { name: '📌 时长', value: durationText, inline: true },
     )
-    .setFooter({ text: event.provisional ? '⚠️ 暂定时间，未经Global Asia确认' : event.note || '数据来源: Shugo.gg · 请在游戏中核实' });
+    .setFooter({ text: event.provisional ? '⚠️ 暂定时间，未经Global Asia确认' : event.note || '· 请在游戏中核实' });
 }
 
 function listEmbed(items, title) {
